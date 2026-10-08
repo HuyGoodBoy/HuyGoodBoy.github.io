@@ -1,534 +1,275 @@
-// Made by Bùi Gia Huy
+// Portfolio of Bùi Gia Huy. Content based on buigiahuy.pdf.
+const h = React.createElement;
+const cvPath = document.body.dataset.cvPath || './buigiahuy.pdf';
+const linkedin = 'https://www.linkedin.com/in/b%C3%B9i-gia-huy-3246b025b/';
+const navigation = [
+  ['welcome-section', 'Home'], ['about', 'About'], ['experience', 'Experience'],
+  ['projects', 'Portfolio'], ['skills', 'Skills'], ['education', 'Education'], ['contact', 'Contact']
+];
 
-/***********************
-  Menu Component
- ***********************/
+const experience = [
+  { company: 'Vinfast', role: 'AI Engineer (Fresher)', dates: 'Jul 2026 - Oct 2026', bullets: [
+    'Developed an Edge-Cloud in-cabin voice assistant for driver intent detection and vehicle control.',
+    'Trained and quantized on-device SLM/NLU models (INT8/INT4) for low-latency automotive inference.',
+    'Built tool-calling Cloud LLM Agents for complex queries and fallback cases, optimizing latency and accuracy.'
+  ] },
+  { company: 'TD Consulting', role: 'AI Engineer (Fresher)', dates: 'Jul 2025 - Dec 2025', bullets: [
+    'Integrated AI into recruitment workflows to automate candidate screening and improve hiring precision.',
+    'Developed a recruitment chatbot and supported AI-enhanced web features.'
+  ] },
+  { company: 'VKX Company', role: 'Data Analyst (Intern)', dates: 'Jan 2025 - Jun 2025', bullets: [
+    'Cleaned and processed datasets, built visualization dashboards and analyzed trends to optimize workflows.'
+  ] },
+  { company: 'Giong AI', role: 'AI Engineer (Intern)', dates: 'Oct 2024 - Dec 2024', bullets: [
+    'Evaluated n8n and Dify, built LLM/API automation PoCs and delivered AI architecture assessment reports.'
+  ] }
+];
 
-const Menu = props => {
-  return React.createElement(
-    'div',
-    { className: `menu-container ${props.showMenu}` },
-    React.createElement('div', { className: 'overlay' }),
-    React.createElement(
-      'div',
-      { className: 'menu-items' },
-      React.createElement(
-        'ul',
-        null,
-        React.createElement(
-          'li',
-          null,
-          React.createElement('a', { href: '#welcome-section', onClick: props.toggleMenu }, 'HOME')
-        ),
-        React.createElement(
-          'li',
-          null,
-          React.createElement('a', { href: '#about', onClick: props.toggleMenu }, 'ABOUT')
-        ),
-        React.createElement(
-          'li',
-          null,
-          React.createElement('a', { href: '#projects', onClick: props.toggleMenu }, 'PORTFOLIO')
-        ),
-        React.createElement(
-          'li',
-          null,
-          React.createElement('a', { href: '#contact', onClick: props.toggleMenu }, 'CONTACT')
-        )
-      ),
-      React.createElement(SocialLinks)
-    )
-  );
-};
+const projects = [
+  {
+    title: 'UWB Contactless Respiration Monitoring System', role: 'Team Leader / AI Researcher',
+    icon: 'fas fa-heartbeat', label: 'Contactless sensing', tech: ['IR-UWB Radar', 'TCN', 'PyTorch', 'NumPy', 'SciPy'],
+    bullets: [
+      'Led the team and built real-time contactless respiration monitoring with XETHRU X4M200 IR-UWB radar.',
+      'Optimized a TCN pipeline: approximately 79% smaller than the reproduced LSTM baseline while maintaining strong prediction performance.'
+    ]
+  },
+  {
+    title: 'Hybrid Edge-Cloud In-Cabin Voice Assistant & Intent Prediction System',
+    role: 'Project Leader / Sole Developer', icon: 'fas fa-microphone-alt', label: 'Edge + Cloud AI',
+    tech: ['SLM / NLU', 'INT8 / INT4', 'Tool-calling', 'Cloud LLM Agents'],
+    bullets: [
+      'Designed driver-intent prediction and in-cabin control with quantized INT8/INT4 edge NLU.',
+      'Built tool-calling Cloud LLM Agents for multi-turn reasoning and fallback cases.'
+    ]
+  },
+  {
+    title: 'RAG & Tool-Calling Test Case Generation System', role: 'Team Leader / AI Engineer',
+    icon: 'fas fa-tasks', label: 'Retrieval + evaluation', tech: ['RAG', 'LangGraph', 'RAGAS', 'Vector Stores'],
+    bullets: [
+      'Coordinated the team and implemented test generation and evaluations of retrieval, answer faithfulness and tool execution.',
+      'Built synthetic fixtures for deterministic evaluations without live user data.'
+    ]
+  },
+  {
+    title: 'Legal RAG Chatbot', role: 'Team Leader / Core AI Engineer',
+    icon: 'fas fa-balance-scale', label: 'Legal knowledge retrieval', tech: ['LLMs', 'RAG', 'Legal Retrieval'],
+    bullets: ['Served as team lead and primary developer for an LLM/RAG chatbot and legal retrieval pipelines.']
+  }
+];
 
-/***********************
-  Nav Component
- ***********************/
+function SocialLinks(props) {
+  const links = [
+    ['https://github.com/HuyGoodBoy', 'GitHub', 'fab fa-github'],
+    [linkedin, 'LinkedIn', 'fab fa-linkedin'],
+    ['https://www.facebook.com/Sweet.Kamit', 'Facebook', 'fab fa-facebook'],
+    ['https://www.instagram.com/huyyy.bg004/', 'Instagram', 'fab fa-instagram'],
+    ['https://discord.com/users/934298468002955324', 'Discord', 'fab fa-discord']
+  ];
+  return h('div', { className: 'social', 'aria-label': 'Social profiles' }, links.map(([href, label, icon]) =>
+    h('a', { key: label, href, title: label, 'aria-label': label, target: '_blank', rel: 'noopener noreferrer',
+      tabIndex: props && props.disabled ? -1 : undefined }, h('i', { className: icon, 'aria-hidden': true }))));
+}
 
-const Nav = props => {
-  return React.createElement(
-    React.Fragment,
-    null,
-    React.createElement(
-      'nav',
-      { id: 'navbar' },
-      React.createElement(
-        'div',
-        { className: 'nav-wrapper' },
-        React.createElement(
-          'p',
-          { className: 'brand' },
-          'Huy',
-          React.createElement('strong', null, 'GoodBoy')
-        ),
-        React.createElement('a', {
-          onClick: props.toggleMenu,
-          className: props.showMenu === 'active' ? 'menu-button active' : 'menu-button'
-        }, React.createElement('span'))
-      )
-    )
-  );
-};
+function Heading(props) {
+  return h('div', { className: 'heading section-heading' },
+    h('h2', { className: 'title', id: props.id }, props.title),
+    h('p', { className: 'separator', 'aria-hidden': true }),
+    props.subtitle && h('p', { className: 'subtitle' }, props.subtitle));
+}
 
-/***********************
-  Header Component
- ***********************/
+function Menu(props) {
+  return h('div', { id: 'portfolio-menu', className: `menu-container ${props.open ? 'active' : 'deactive'}`,
+    hidden: !props.open, 'aria-hidden': !props.open },
+    h('div', { className: 'overlay', 'aria-hidden': true }),
+    h('nav', { className: 'menu-items', 'aria-label': 'Portfolio sections' },
+      h('ul', null, navigation.map(([id, label]) => h('li', { key: id },
+        h('a', { href: `#${id}`, 'aria-label': label.toUpperCase(), onClick: props.closeMenu, tabIndex: props.open ? 0 : -1 }, label.toUpperCase())))),
+      h(SocialLinks, { disabled: !props.open })));
+}
 
-const Header = props => {
-  return React.createElement(
-    'header',
-    { id: 'welcome-section' },
-    React.createElement('div', { className: 'forest' }),
-    React.createElement('div', { className: 'silhouette' }),
-    React.createElement('div', { className: 'moon' }),
-    React.createElement(
-      'div',
-      { className: 'container' },
-      React.createElement(
-        'h1',
-        null,
-        React.createElement('span', { className: 'line' }, 'I do'),
-        React.createElement('span', { className: 'line' }, 'AI Engineering'),
-        React.createElement(
-          'span',
-          { className: 'line' },
-          React.createElement('span', { className: 'color' }, '&'),
-          ' Data Science.'
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'buttons' },
-        React.createElement('a', { href: '#projects' }, 'my portfolio'),
-        React.createElement('a', { href: '#contact', className: 'cta' }, 'get in touch')
-      )
-    )
-  );
-};
+function Nav(props) {
+  return h('nav', { id: 'navbar', 'aria-label': 'Main navigation' }, h('div', { className: 'nav-wrapper' },
+    h('a', { className: 'brand', href: '#welcome-section', 'aria-label': 'HuyGoodBoy home', onClick: props.closeMenu },
+      'Huy', h('strong', null, 'GoodBoy')),
+    h('button', { id: 'menu-toggle', type: 'button', onClick: props.toggleMenu,
+      className: `menu-button ${props.open ? 'active' : ''}`, 'aria-expanded': props.open,
+      'aria-controls': 'portfolio-menu', 'aria-label': props.open ? 'Close menu' : 'Open menu' },
+      h('span', { 'aria-hidden': true }))));
+}
 
-/***********************
-  About Component
- ***********************/
+function Header() {
+  return h('header', { id: 'welcome-section' },
+    h('div', { className: 'forest', 'aria-hidden': true }),
+    h('div', { className: 'silhouette', 'aria-hidden': true }),
+    h('div', { className: 'moon', 'aria-hidden': true }),
+    h('div', { className: 'container' },
+      h('p', { className: 'hero-intro' }, 'Bùi Gia Huy · Hanoi, Vietnam'),
+      h('h1', null, h('span', { className: 'line' }, 'I do'),
+        h('span', { className: 'line' }, 'AI Engineering'),
+        h('span', { className: 'line' }, h('span', { className: 'color' }, '&'), ' Applied AI.')),
+      h('p', { className: 'hero-summary' }, 'LLMs, RAG & Edge-Cloud AI — from intent detection to practical AI systems.'),
+      h('div', { className: 'buttons' },
+        h('a', { href: '#projects' }, 'my portfolio'),
+        h('a', { href: cvPath, className: 'cta', download: 'Bui-Gia-Huy-CV.pdf' }, 'download CV')),
+      h('a', { className: 'hero-contact', href: '#contact' }, 'get in touch →')));
+}
 
-const About = props => {
-  return React.createElement(
-    'section',
-    { id: 'about' },
-    React.createElement(
-      'div',
-      { className: 'wrapper' },
-      React.createElement(
-        'article',
-        null,
-        React.createElement(
-          'div',
-          { className: 'title' },
-          React.createElement('h3', null, "Who's this guy?"),
-          React.createElement('p', { className: 'separator' })
-        ),
-        React.createElement(
-          'div',
-          { className: 'desc full' },
-          React.createElement('h4', { className: 'subtitle' }, 'My name is Bùi Gia Huy.'),
-          React.createElement('p', null, 'I am an AI Engineer and Data Scientist based in Vietnam.'),
-          React.createElement(
-            'p',
-            null,
-            'I am passionate about artificial intelligence and machine learning, with a focus on building practical AI solutions. I love working on projects that combine cutting-edge technology with real-world applications. When I\'m not coding, I enjoy exploring new AI technologies and contributing to the AI community.'
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'title' },
-          React.createElement('h3', null, 'What does he do?'),
-          React.createElement('p', { className: 'separator' })
-        ),
-        React.createElement(
-          'div',
-          { className: 'desc' },
-          React.createElement('h4', { className: 'subtitle' }, "I'm an AI Engineer."),
-          React.createElement(
-            'p',
-            null,
-            'I specialize in developing AI and machine learning solutions, particularly in natural language processing and computer vision. My expertise includes building chatbots, implementing RAG systems, and developing facial recognition applications.'
-          ),
-          React.createElement(
-            'p',
-            null,
-            'I work with various AI frameworks and libraries including TensorFlow, PyTorch, and Hugging Face Transformers. I also have experience with cloud platforms and deploying AI models at scale.'
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'desc' },
-          React.createElement('h4', { className: 'subtitle' }, 'Also a Data Scientist.'),
-          React.createElement(
-            'p',
-            null,
-            'I analyze complex datasets and develop machine learning models to solve real-world problems. My work involves data preprocessing, feature engineering, model development, and performance optimization. I\'m particularly interested in projects that combine multiple AI technologies to create comprehensive solutions.'
-          )
-        )
-      )
-    )
-  );
-};
+function About() {
+  return h('section', { id: 'about', 'aria-labelledby': 'about-title' }, h('div', { className: 'wrapper' },
+    h('article', null,
+      h('div', { className: 'title' }, h('h2', { id: 'about-title' }, "Who's this guy?"),
+        h('p', { className: 'separator', 'aria-hidden': true })),
+      h('div', { className: 'desc full' },
+        h('h3', { className: 'subtitle' }, 'My name is Bùi Gia Huy.'),
+        h('p', null, 'I am an AI Engineer based in Hanoi, Vietnam, with experience in automotive AI, recruitment automation, data analysis and LLM workflows.'),
+        h('p', null, 'I build practical AI systems, from quantized on-device models and cloud agents to retrieval pipelines and contactless sensing. My work combines research, implementation and evaluation.')),
+      h('div', { className: 'desc' }, h('h3', { className: 'subtitle' }, 'AI Engineering'),
+        h('p', null, 'I develop LLM and RAG applications, tool-calling agents and Edge-Cloud voice assistants. My experience includes quantizing SLM/NLU models with INT8/INT4 for low-latency inference.')),
+      h('div', { className: 'desc' }, h('h3', { className: 'subtitle' }, 'Research & Evaluation'),
+        h('p', null, 'I work with PyTorch, NumPy and SciPy on temporal models and real-time sensing. I also evaluate retrieval quality, answer faithfulness and tool execution using RAGAS and deterministic test fixtures.')))));
+}
 
-/***********************
-  Project Component
- ***********************/
+function Experience() {
+  return h('section', { id: 'experience', className: 'resume-section', 'aria-labelledby': 'experience-title' },
+    h('div', { className: 'section-container' },
+      h(Heading, { id: 'experience-title', title: 'Work Experience', subtitle: 'Building AI solutions across automotive, recruitment and automation.' }),
+      h('div', { className: 'timeline' }, experience.map(job => h('article', { className: 'experience-card', key: job.company },
+        h('div', { className: 'experience-heading' },
+          h('div', null, h('h3', null, job.company), h('p', { className: 'role' }, job.role)),
+          h('p', { className: 'dates' }, job.dates)),
+        h('ul', null, job.bullets.map(text => h('li', { key: text }, text))))))));
+}
 
-const Project = props => {
-  const tech = {
-    sass: 'fab fa-sass',
-    css: 'fab fa-css3-alt',
-    js: 'fab fa-js-square',
-    react: 'fab fa-react',
-    vue: 'fab fa-vuejs',
-    d3: 'far fa-chart-bar',
-    node: 'fab fa-node',
-    python: 'fab fa-python',
-    tensorflow: 'fas fa-brain',
-    nlp: 'fas fa-language',
-    opencv: 'fas fa-camera'
-  };
+function Project(props) {
+  const project = props.project;
+  return h('article', { className: 'project' },
+    h('div', { className: 'project-visual', 'aria-hidden': true },
+      h('i', { className: project.icon }), h('span', null, project.label)),
+    h('div', { className: 'project-details' },
+      h('h3', { className: 'project-tile' }, project.title),
+      h('p', { className: 'project-role' }, project.role),
+      h('ul', { className: 'project-outcomes' }, project.bullets.map(text => h('li', { key: text }, text))),
+      h('ul', { className: 'tech-tags', 'aria-label': 'Project technologies' }, project.tech.map(text => h('li', { key: text }, text)))));
+}
 
-  const link = props.link || 'http://';
-  const repo = props.repo || 'http://';
+function Projects() {
+  return h('section', { id: 'projects', 'aria-labelledby': 'projects-title' }, h('div', { className: 'projects-container' },
+    h(Heading, { id: 'projects-title', title: 'My Works', subtitle: 'Selected projects in sensing, Edge-Cloud AI and retrieval-augmented generation.' }),
+    h('div', { className: 'projects-wrapper' }, projects.map(project => h(Project, { key: project.title, project })))));
+}
 
-  return React.createElement(
-    'div',
-    { className: 'project' },
-    React.createElement(
-      'a',
-      { className: 'project-link', href: link, target: '_blank', rel: 'noopener noreferrer' },
-      React.createElement('img', {
-        className: 'project-image',
-        src: props.img,
-        alt: 'Screenshot of ' + props.title
-      })
-    ),
-    React.createElement(
-      'div',
-      { className: 'project-details' },
-      React.createElement(
-        'div',
-        { className: 'project-tile' },
-        React.createElement(
-          'p',
-          { className: 'icons' },
-          props.tech.split(' ').map(t => React.createElement('i', { className: tech[t], key: t }))
-        ),
-        props.title,
-        ' '
-      ),
-      props.children,
-      React.createElement(
-        'div',
-        { className: 'buttons' },
-        React.createElement(
-          'a',
-          { href: repo, target: '_blank', rel: 'noopener noreferrer' },
-          'View source ',
-          React.createElement('i', { className: 'fas fa-external-link-alt' })
-        ),
-        React.createElement(
-          'a',
-          { href: link, target: '_blank', rel: 'noopener noreferrer' },
-          'Try it Live ',
-          React.createElement('i', { className: 'fas fa-external-link-alt' })
-        )
-      )
-    )
-  );
-};
+function Skills() {
+  const groups = [
+    ['AI', ['LLMs', 'RAG', 'Tool-calling', 'Model quantization', 'TCN', 'YOLO', 'XGBoost']],
+    ['Development', ['Python', 'PyTorch', 'NumPy', 'SciPy', 'PostgreSQL', 'Git', 'Docker']],
+    ['Tools', ['LangChain', 'LangGraph', 'RAGAS', 'Langfuse', 'Qdrant', 'Neo4j', 'n8n', 'Dify']]
+  ];
+  return h('section', { id: 'skills', className: 'resume-section', 'aria-labelledby': 'skills-title' },
+    h('div', { className: 'section-container' }, h(Heading, { id: 'skills-title', title: 'Skills & Tools' }),
+      h('div', { className: 'skills-grid' }, groups.map(([name, items]) => h('article', { className: 'skill-card', key: name },
+        h('h3', null, name), h('ul', { className: 'tech-tags' }, items.map(item => h('li', { key: item }, item))))))));
+}
 
-/***********************
-  Projects Component
- ***********************/
+function Education() {
+  return h('section', { id: 'education', className: 'resume-section', 'aria-labelledby': 'education-title' },
+    h('div', { className: 'section-container' }, h(Heading, { id: 'education-title', title: 'Education & Achievements' }),
+      h('div', { className: 'education-grid' },
+        h('article', { className: 'education-card' }, h('h3', null, 'FPT University'),
+          h('p', { className: 'role' }, 'Bachelor of Science in Artificial Intelligence'),
+          h('p', { className: 'dates' }, '2022 - 2026'),
+          h('h4', null, 'Languages'), h('p', null, 'Vietnamese — Native'), h('p', null, 'English — Intermediate')),
+        h('article', { className: 'education-card' }, h('h3', null, 'Achievements'),
+          h('ul', { className: 'achievement-list' },
+            h('li', null, h('strong', null, 'Second Prize'), h('span', null, 'FPTxNRC AI Hackathon 2025')),
+            h('li', null, h('strong', null, 'Vingroup Applied AI Talent Program'), h('span', null, 'Artificial Intelligence')),
+            h('li', null, h('strong', null, 'Excellent Student at FPT University'), h('span', null, 'Summer 2025 Semester')))))));
+}
 
-const Projects = props => {
-  return React.createElement(
-    'section',
-    { id: 'projects' },
-    React.createElement(
-      'div',
-      { className: 'projects-container' },
-      React.createElement(
-        'div',
-        { className: 'heading' },
-        React.createElement('h3', { className: 'title' }, 'My Works'),
-        React.createElement('p', { className: 'separator' }),
-        React.createElement(
-          'p',
-          { className: 'subtitle' },
-          'Here are some of my recent AI and machine learning projects that showcase my expertise in developing practical AI solutions.'
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'projects-wrapper' },
-        React.createElement(Project, {
-          title: 'Book Recommendation System',
-          img: 'https://doorcountypulse.com/wp-content/uploads/2022/02/Book-Recs-scaled.jpg',
-          tech: 'python scikit-learn nlp',
-          link: 'https://github.com/HuyGoodBoy/book-recommendation-system',
-          repo: 'https://github.com/HuyGoodBoy/book-recommendation-system',
-          children: [
-            React.createElement('small', null, 'Built using Python, scikit-learn, and collaborative filtering techniques.'),
-            React.createElement('p', null, 'A recommendation system that uses Singular Value Decomposition (SVD) and K-Nearest Neighbors (KNN) to discover latent factors and provide personalized book recommendations based on user preferences.')
-          ]
-        }),
-        React.createElement(Project, {
-          title: 'Legal RAG Chatbot',
-          img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGeQHnhzN9MsbO2pN05j1EXS80lPAG_dRLw&s',
-          tech: 'python langchain openai',
-          link: 'https://662chatbot.io.vn/chat',
-          repo: 'https://github.com/662chatbot/662chatbot.github.io',
-          children: [
-            React.createElement('small', null, 'Built using Python, LangChain, and OpenAI\'s GPT models.'),
-            React.createElement('p', null, 'A Retrieval-Augmented Generation chatbot specialized in legal information and documentation.')
-          ]
-        }),
-        React.createElement(Project, {
-          title: 'Face Recognition System',
-          img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSasEe1EK6-HTOCeyxsiLnRQC5FSltw6QUaAg&s',
-          tech: 'python opencv tensorflow',
-          link: 'https://github.com/HuyGoodBoy/face-recognition-system',
-          repo: 'https://github.com/HuyGoodBoy/face-recognition-system',
-          children: [
-            React.createElement('small', null, 'Built using Python, OpenCV, and TensorFlow.'),
-            React.createElement('p', null, 'A facial recognition system that can identify and verify individuals in real-time.')
-          ]
-        }),
-        React.createElement(Project, {
-          title: 'Discord Music Bot',
-          img: 'https://static.vecteezy.com/system/resources/previews/006/892/625/non_2x/discord-logo-icon-editorial-free-vector.jpg',
-          tech: 'python discord.py ffmpeg',
-          link: 'https://discord.com/oauth2/authorize?client_id=1351445711505330196',
-          repo: 'https://github.com/HuyGoodBoy/discordbott',
-          children: [
-            React.createElement('small', null, 'Built using Python, Discord.py, and FFmpeg for audio processing.'),
-            React.createElement('p', null, 'A Discord bot that can play music from YouTube in voice channels, featuring commands for playback control, queue management, and server interaction.')
-          ]
-        }),
-        React.createElement(Project, {
-          title: 'Food Recognition & Recommendations',
-          img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZAt5GYkUkaEGFLJ6W4vXWH58bHKH3_uSgnA&s',
-          tech: 'python tensorflow opencv',
-          link: 'https://github.com/HuyGoodBoy',
-          repo: 'https://github.com/HuyGoodBoy/food-recognition-and-food-recommendations',
-          children: [
-            React.createElement('small', null, 'Built using Python, YOLOv11, and Spoonacular API.'),
-            React.createElement('p', null, 'A food recognition and recommendation system that detects food in images and provides recipe recommendations.')
-          ]
-        })
-      )
-    )
-  );
-};
+function Contact() {
+  return h('section', { id: 'contact', 'aria-labelledby': 'contact-title' }, h('div', { className: 'container' },
+    h('div', { className: 'heading-wrapper' }, h('div', { className: 'heading' },
+      h('h2', { className: 'title', id: 'contact-title' }, 'Want to ', h('br'), 'contact me?'),
+      h('p', { className: 'separator', 'aria-hidden': true }),
+      h('p', { className: 'subtitle' }, 'Let’s talk about AI engineering, research or a project you have in mind.')),
+      h(SocialLinks)),
+    h('div', { className: 'contact-links' },
+      h('a', { href: 'mailto:giahuy31639801@gmail.com' }, h('i', { className: 'fas fa-envelope', 'aria-hidden': true }), 'giahuy31639801@gmail.com'),
+      h('a', { href: 'tel:+84985643876' }, h('i', { className: 'fas fa-phone', 'aria-hidden': true }), '0985 643 876'),
+      h('p', null, h('i', { className: 'fas fa-map-marker-alt', 'aria-hidden': true }), 'Hanoi, Vietnam')),
+    h('a', { className: 'contact-cv', href: cvPath, download: 'Bui-Gia-Huy-CV.pdf' }, 'Download my CV ', h('i', { className: 'fas fa-download', 'aria-hidden': true }))));
+}
 
-/***********************
-  Contact Component
- ***********************/
-
-const Contact = props => {
-  return React.createElement(
-    'section',
-    { id: 'contact' },
-    React.createElement(
-      'div',
-      { className: 'container' },
-      React.createElement(
-        'div',
-        { className: 'heading-wrapper' },
-        React.createElement(
-          'div',
-          { className: 'heading' },
-          React.createElement(
-            'p',
-            { className: 'title' },
-            'Want to ',
-            React.createElement('br'),
-            'contact me?'
-          ),
-          React.createElement('p', { className: 'separator' }),
-          React.createElement(
-            'p',
-            { className: 'subtitle' },
-            'Please, use the form below or send an email to ',
-            React.createElement(
-              'span',
-              { className: 'mail' },
-              'giahuy31639801',
-              React.createElement('i', { className: 'fas fa-at at' }),
-              'gmail',
-              React.createElement('i', { className: 'fas fa-circle dot' }),
-              'com'
-            ),
-            ':'
-          )
-        ),
-        React.createElement(SocialLinks)
-      ),
-      React.createElement(
-        'form',
-        { id: 'contact-form', action: '#' },
-        React.createElement('input', { placeholder: 'Name', name: 'name', type: 'text', required: true }),
-        React.createElement('input', { placeholder: 'Email', name: 'email', type: 'email', required: true }),
-        React.createElement('textarea', { placeholder: 'Message', type: 'text', name: 'message' }),
-        React.createElement('input', { className: 'button', id: 'submit', value: 'Submit', type: 'submit' })
-      )
-    )
-  );
-};
-
-/***********************
-  Footer Component
- ***********************/
-
-const Footer = props => {
-  return React.createElement(
-    'footer',
-    null,
-    React.createElement(
-      'div',
-      { className: 'wrapper' },
-      React.createElement('h3', null, 'THANKS FOR VISITING'),
-      React.createElement('p', null, '© ', new Date().getFullYear(), ' Bùi Gia Huy.'),
-      React.createElement(SocialLinks)
-    )
-  );
-};
-
-/***********************
-  Social Links Component
- ***********************/
-
-const SocialLinks = props => {
-  return React.createElement(
-    'div',
-    { className: 'social' },
-    React.createElement(
-      'a',
-      {
-        href: 'https://github.com/HuyGoodBoy',
-        target: '_blank',
-        rel: 'noopener noreferrer',
-        title: "Link to author's GitHub profile"
-      },
-      ' ',
-      React.createElement('i', { className: 'fab fa-github' })
-    ),
-    React.createElement(
-      'a',
-      {
-        href: 'https://www.facebook.com/Sweet.Kamit',
-        target: '_blank',
-        rel: 'noopener noreferrer',
-        title: "Link to author's Facebook Profile"
-      },
-      ' ',
-      React.createElement('i', { className: 'fab fa-facebook' })
-    ),
-    React.createElement(
-      'a',
-      {
-        href: 'https://www.instagram.com/huyyy.bg004/',
-        target: '_blank',
-        rel: 'noopener noreferrer',
-        title: "Link to author's Instagram Profile"
-      },
-      ' ',
-      React.createElement('i', { className: 'fab fa-instagram' })
-    ),
-    React.createElement(
-      'a',
-      {
-        href: 'https://discord.com/users/934298468002955324',
-        target: '_blank',
-        rel: 'noopener noreferrer',
-        title: "Link to author's Discord Profile"
-      },
-      ' ',
-      React.createElement('i', { className: 'fab fa-discord' })
-    )
-  );
-};
-
-/***********************
-  Main Component
- ***********************/
+function Footer() {
+  return h('footer', null, h('div', { className: 'wrapper' }, h('h3', null, 'THANKS FOR VISITING'),
+    h('p', null, '© ', new Date().getFullYear(), ' Bùi Gia Huy.'), h(SocialLinks)));
+}
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      menuState: false
-    };
+    this.state = { menuOpen: false };
+    this.toggleMenu = this.toggleMenu.bind(this);
+    this.closeMenu = this.closeMenu.bind(this);
+    this.handleKeydown = this.handleKeydown.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
   }
 
-  toggleMenu = () => {
-    this.setState(state => ({
-      menuState: !state.menuState
-        ? 'active'
-        : state.menuState === 'deactive'
-          ? 'active'
-          : 'deactive'
-    }));
-  };
+  closeMenu() { this.setState({ menuOpen: false }); }
+  toggleMenu() { this.setState(state => ({ menuOpen: !state.menuOpen })); }
 
-  render() {
-    return React.createElement(
-      React.Fragment,
-      null,
-      React.createElement(Menu, { toggleMenu: this.toggleMenu, showMenu: this.state.menuState }),
-      React.createElement(Nav, { toggleMenu: this.toggleMenu, showMenu: this.state.menuState }),
-      React.createElement(Header),
-      React.createElement(About),
-      React.createElement(Projects),
-      React.createElement(Contact),
-      React.createElement(Footer)
-    );
+  handleKeydown(event) {
+    if (!this.state.menuOpen) return;
+    if (event.key === 'Escape') { event.preventDefault(); this.closeMenu(); }
+    if (event.key === 'Tab') {
+      const controls = [document.getElementById('menu-toggle'), ...document.querySelectorAll('#portfolio-menu a')];
+      const current = controls.indexOf(document.activeElement);
+      const next = (current + (event.shiftKey ? -1 : 1) + controls.length) % controls.length;
+      event.preventDefault();
+      controls[next].focus();
+    }
+  }
+
+  handleScroll() {
+    const scroll = window.scrollY;
+    document.getElementById('navbar').classList.toggle('bg-active', scroll > 80);
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && scroll <= window.innerHeight) {
+      document.querySelector('.silhouette').style.bottom = `${Math.round(scroll / 6)}px`;
+      document.querySelector('.forest').style.bottom = `${-300 + Math.round(scroll / 6)}px`;
+    }
   }
 
   componentDidMount() {
-    const navbar = document.querySelector('#navbar');
-    const header = document.querySelector('#welcome-section');
-    const forest = document.querySelector('.forest');
-    const silhouette = document.querySelector('.silhouette');
-    let forestInitPos = -300;
+    window.addEventListener('scroll', this.handleScroll, { passive: true });
+    document.addEventListener('keydown', this.handleKeydown);
+    this.handleScroll();
+    const target = document.getElementById(window.location.hash.slice(1));
+    if (target) target.scrollIntoView();
+  }
 
-    window.onscroll = () => {
-      let scrollPos = document.documentElement.scrollTop || document.body.scrollTop;
+  componentDidUpdate(_, previous) {
+    if (previous.menuOpen !== this.state.menuOpen) {
+      document.body.classList.toggle('menu-open', this.state.menuOpen);
+      document.querySelector('main').inert = this.state.menuOpen;
+      document.querySelector('footer').inert = this.state.menuOpen;
+      if (this.state.menuOpen) document.querySelector('#portfolio-menu a').focus();
+      else document.getElementById('menu-toggle').focus();
+    }
+  }
 
-      if (scrollPos <= window.innerHeight) {
-        silhouette.style.bottom = `${parseInt(scrollPos / 6)}px`;
-        forest.style.bottom = `${parseInt(forestInitPos + scrollPos / 6)}px`;
-      }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+    document.removeEventListener('keydown', this.handleKeydown);
+    document.body.classList.remove('menu-open');
+  }
 
-      if (scrollPos - 100 <= window.innerHeight)
-        header.style.visibility = header.style.visibility === 'hidden' && 'visible';
-      else header.style.visibility = 'hidden';
-
-      if (scrollPos + 100 >= window.innerHeight) navbar.classList.add('bg-active');
-      else navbar.classList.remove('bg-active');
-    };
-
-    (function navSmoothScrolling() {
-      const internalLinks = document.querySelectorAll('a[href^="#"]');
-      for (let i in internalLinks) {
-        if (internalLinks.hasOwnProperty(i)) {
-          internalLinks[i].addEventListener('click', e => {
-            e.preventDefault();
-            document.querySelector(internalLinks[i].hash).scrollIntoView({
-              block: 'start',
-              behavior: 'smooth'
-            });
-          });
-        }
-      }
-    })();
+  render() {
+    return h(React.Fragment, null,
+      h('a', { className: 'skip-link', href: '#about' }, 'Skip to content'),
+      h(Menu, { open: this.state.menuOpen, closeMenu: this.closeMenu }),
+      h(Nav, { open: this.state.menuOpen, toggleMenu: this.toggleMenu, closeMenu: this.closeMenu }),
+      h('main', null, h(Header), h(About), h(Experience), h(Projects), h(Skills), h(Education), h(Contact)), h(Footer));
   }
 }
 
-ReactDOM.render(React.createElement(App), document.getElementById('app'));
+ReactDOM.render(h(App), document.getElementById('app'));
