@@ -18,3 +18,10 @@ The writing-plans skill is not installed in this session; this plan documents th
 - Visually reviewed desktop hero, mobile content, menu and footer; confined fixed decorative graphics to the hero to prevent overlap with other content.
 - Confirmed root `index.html`, source/distribution synchronization, unchanged CNAME and unchanged root artifact upload on `master`.
 - Application changes are local; no production deployment was performed.
+
+## Follow-up visual refinement
+
+The user requested an Astra review and visual improvement after deploying the initial CV update.
+Replaced the inherited CSS, adopted consistent sans-serif typography, restrained the forest/moon backdrop, added desktop navigation, and rebuilt project/timeline/contact layouts. Astra reviewed desktop and mobile screenshots twice. The refinement retains CV content and root GitHub Pages deployment.
+
+Refinement validation passed at 320, 390, 768 and 1440 px: no horizontal overflow, no JavaScript errors or failed network requests; menu, Escape, focus containment, CV download, footer, reduced motion, distribution preview and local forest asset verified. Stylesheet/script URLs include a version query so browsers request the refined assets after deployment.

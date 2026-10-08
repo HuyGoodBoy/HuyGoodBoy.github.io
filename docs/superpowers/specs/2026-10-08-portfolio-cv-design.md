@@ -39,3 +39,16 @@ Giữ giao diện portfolio hiện tại: phần mở đầu có rừng, trăng 
 - Kiểm tra nội dung bốn công việc, bốn dự án, kỹ năng, học vấn và thành tích khớp CV.
 - Kiểm tra root `index.html`, các tài nguyên tương đối và CV trả về thành công; `CNAME` và đường dẫn upload artifact của workflow được giữ nguyên.
 - Báo rõ trạng thái sửa cục bộ và trạng thái deploy; không báo website đã cập nhật nếu chưa push và deploy.
+
+## Chỉnh giao diện theo phản hồi tiếp theo của người dùng
+
+Người dùng yêu cầu hỏi Astra và chỉnh giao diện đẹp hơn sau khi bản cập nhật nội dung đã được triển khai. Phần này cập nhật định hướng hiển thị ở trên; dữ liệu CV và cấu trúc GitHub Pages vẫn được giữ.
+
+- Thay stylesheet cũ bằng một hệ thống thống nhất: Inter sans, container 1120px, nền navy `#111923`, điểm nhấn hồng `#f477be`, nội dung nền sáng.
+- Giữ rừng, trăng và bầu trời đêm ở mức nhẹ; bỏ nhân vật màu vàng, ảnh nền tác giả cũ, các mép cắt chéo và hiệu ứng cuộn trang trí.
+- Hero căn trái có tiêu đề rõ ràng, nút xem dự án/tải CV và sơ đồ nhỏ minh họa đúng kiến trúc Edge-Cloud trong CV.
+- Navigation dạng liên kết trên desktop và menu truy cập bằng bàn phím trên mobile. Thống nhất nhãn Projects.
+- Dự án thành thẻ hai cột, một cột trên điện thoại; biểu tượng nhỏ, mô tả đọc được và nhấn mạnh kết quả 79% đúng phạm vi CV.
+- Kinh nghiệm là các hàng timeline gọn; kỹ năng, học vấn và thành tích theo cùng quy tắc typography, đường viền và khoảng cách.
+- Contact và footer đi theo luồng trang thông thường. SVG rừng đặt ở `assets/forest.svg`, các trang root/dist đều tham chiếu đúng.
+- Astra đã đánh giá hai lượt, gồm ảnh desktop và mobile; sửa dính từ trong tiêu đề sơ đồ mobile, tăng kích thước chữ và vùng bấm.

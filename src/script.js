@@ -1,10 +1,11 @@
 // Portfolio of Bùi Gia Huy. Content based on buigiahuy.pdf.
 const h = React.createElement;
 const cvPath = document.body.dataset.cvPath || './buigiahuy.pdf';
+const assetRoot = document.body.dataset.assetRoot || './assets';
 const linkedin = 'https://www.linkedin.com/in/b%C3%B9i-gia-huy-3246b025b/';
 const navigation = [
   ['welcome-section', 'Home'], ['about', 'About'], ['experience', 'Experience'],
-  ['projects', 'Portfolio'], ['skills', 'Skills'], ['education', 'Education'], ['contact', 'Contact']
+  ['projects', 'Projects'], ['skills', 'Skills'], ['education', 'Education'], ['contact', 'Contact']
 ];
 
 const experience = [
@@ -73,6 +74,7 @@ function SocialLinks(props) {
 
 function Heading(props) {
   return h('div', { className: 'heading section-heading' },
+    h('p', { className: 'section-eyebrow' }, props.eyebrow || 'Portfolio'),
     h('h2', { className: 'title', id: props.id }, props.title),
     h('p', { className: 'separator', 'aria-hidden': true }),
     props.subtitle && h('p', { className: 'subtitle' }, props.subtitle));
@@ -91,7 +93,12 @@ function Menu(props) {
 function Nav(props) {
   return h('nav', { id: 'navbar', 'aria-label': 'Main navigation' }, h('div', { className: 'nav-wrapper' },
     h('a', { className: 'brand', href: '#welcome-section', 'aria-label': 'HuyGoodBoy home', onClick: props.closeMenu },
-      'Huy', h('strong', null, 'GoodBoy')),
+      h('span', { className: 'brand-mark', 'aria-hidden': true }, 'HG'),
+      h('span', null, 'Bùi Gia Huy', h('span', { className: 'brand-role' }, 'AI Engineer'))),
+    h('div', { className: 'desktop-nav' },
+      [['about', 'About'], ['experience', 'Experience'], ['projects', 'Projects'], ['contact', 'Contact']].map(([id, label]) =>
+        h('a', { key: id, href: `#${id}` }, label)),
+      h('a', { className: 'nav-cv', href: cvPath, download: 'Bui-Gia-Huy-CV.pdf' }, 'Download CV ', h('span', { 'aria-hidden': true }, '↗'))),
     h('button', { id: 'menu-toggle', type: 'button', onClick: props.toggleMenu,
       className: `menu-button ${props.open ? 'active' : ''}`, 'aria-expanded': props.open,
       'aria-controls': 'portfolio-menu', 'aria-label': props.open ? 'Close menu' : 'Open menu' },
@@ -100,28 +107,43 @@ function Nav(props) {
 
 function Header() {
   return h('header', { id: 'welcome-section' },
-    h('div', { className: 'forest', 'aria-hidden': true }),
-    h('div', { className: 'silhouette', 'aria-hidden': true }),
+    h('div', { className: 'forest', style: { backgroundImage: `url(${assetRoot}/forest.svg)` }, 'aria-hidden': true }),
     h('div', { className: 'moon', 'aria-hidden': true }),
-    h('div', { className: 'container' },
-      h('p', { className: 'hero-intro' }, 'Bùi Gia Huy · Hanoi, Vietnam'),
-      h('h1', null, h('span', { className: 'line' }, 'I do'),
-        h('span', { className: 'line' }, 'AI Engineering'),
-        h('span', { className: 'line' }, h('span', { className: 'color' }, '&'), ' Applied AI.')),
-      h('p', { className: 'hero-summary' }, 'LLMs, RAG & Edge-Cloud AI — from intent detection to practical AI systems.'),
-      h('div', { className: 'buttons' },
-        h('a', { href: '#projects' }, 'my portfolio'),
-        h('a', { href: cvPath, className: 'cta', download: 'Bui-Gia-Huy-CV.pdf' }, 'download CV')),
-      h('a', { className: 'hero-contact', href: '#contact' }, 'get in touch →')));
+    h('div', { className: 'container hero-layout' },
+      h('div', { className: 'hero-copy' },
+        h('p', { className: 'hero-intro' }, h('span', { className: 'intro-rule', 'aria-hidden': true }), 'Bùi Gia Huy · AI Engineer'),
+        h('h1', null, h('span', { className: 'line' }, 'Building'), h('span', { className: 'line color' }, 'practical AI.')),
+        h('p', { className: 'hero-summary' }, 'I turn AI research into working systems — from on-device voice assistants to retrieval pipelines and cloud agents.'),
+        h('div', { className: 'buttons' },
+          h('a', { href: '#projects', className: 'cta' }, 'Explore my work ', h('span', { 'aria-hidden': true }, '↗')),
+          h('a', { href: cvPath, download: 'Bui-Gia-Huy-CV.pdf' }, 'Download CV ', h('i', { className: 'fas fa-arrow-down', 'aria-hidden': true }))),
+        h('div', { className: 'hero-meta' },
+          h('span', null, h('i', { className: 'fas fa-map-marker-alt', 'aria-hidden': true }), 'Hanoi, Vietnam'),
+          h('a', { href: 'https://github.com/HuyGoodBoy', target: '_blank', rel: 'noopener noreferrer' }, 'GitHub ', h('span', { 'aria-hidden': true }, '↗')),
+          h('a', { href: linkedin, target: '_blank', rel: 'noopener noreferrer' }, 'LinkedIn ', h('span', { 'aria-hidden': true }, '↗')))),
+      h('aside', { className: 'hero-system', 'aria-label': 'Edge-Cloud voice assistant architecture' },
+        h('div', { className: 'system-heading' }, h('span', null, 'EDGE + CLOUD'), h('i', { className: 'fas fa-microphone-alt', 'aria-hidden': true })),
+        h('h2', null, 'In-cabin ', h('br'), 'voice intelligence.'),
+        h('div', { className: 'system-node' }, h('span', { className: 'node-number' }, '01'),
+          h('div', null, h('strong', null, 'On-device intent'), h('span', null, 'Quantized SLM / NLU · INT8 / INT4')),
+          h('i', { className: 'fas fa-microchip', 'aria-hidden': true })),
+        h('div', { className: 'system-connector', 'aria-hidden': true }, h('span'), '↓'),
+        h('div', { className: 'system-node' }, h('span', { className: 'node-number' }, '02'),
+          h('div', null, h('strong', null, 'Cloud reasoning'), h('span', null, 'LLM agents · Tool-calling')),
+          h('i', { className: 'fas fa-cloud', 'aria-hidden': true })),
+        h('p', { className: 'system-caption' }, 'Driver intent → vehicle control'))),
+    h('div', { className: 'hero-footer container' },
+      h('span', null, 'LLMs & RAG'), h('span', null, 'Edge-Cloud AI'), h('span', null, 'Research & Evaluation'),
+      h('a', { href: '#about' }, 'Discover more ', h('span', { 'aria-hidden': true }, '↓'))));
 }
 
 function About() {
   return h('section', { id: 'about', 'aria-labelledby': 'about-title' }, h('div', { className: 'wrapper' },
     h('article', null,
-      h('div', { className: 'title' }, h('h2', { id: 'about-title' }, "Who's this guy?"),
+      h('div', { className: 'title' }, h('p', { className: 'section-eyebrow' }, '01 / Introduction'), h('h2', { id: 'about-title' }, 'About me.'),
         h('p', { className: 'separator', 'aria-hidden': true })),
       h('div', { className: 'desc full' },
-        h('h3', { className: 'subtitle' }, 'My name is Bùi Gia Huy.'),
+        h('h3', { className: 'subtitle' }, 'Research, implementation and everything in between.'),
         h('p', null, 'I am an AI Engineer based in Hanoi, Vietnam, with experience in automotive AI, recruitment automation, data analysis and LLM workflows.'),
         h('p', null, 'I build practical AI systems, from quantized on-device models and cloud agents to retrieval pipelines and contactless sensing. My work combines research, implementation and evaluation.')),
       h('div', { className: 'desc' }, h('h3', { className: 'subtitle' }, 'AI Engineering'),
@@ -133,29 +155,35 @@ function About() {
 function Experience() {
   return h('section', { id: 'experience', className: 'resume-section', 'aria-labelledby': 'experience-title' },
     h('div', { className: 'section-container' },
-      h(Heading, { id: 'experience-title', title: 'Work Experience', subtitle: 'Building AI solutions across automotive, recruitment and automation.' }),
+      h(Heading, { id: 'experience-title', eyebrow: '02 / Career', title: 'Work experience.', subtitle: 'Applied AI across automotive, recruitment and automation.' }),
       h('div', { className: 'timeline' }, experience.map(job => h('article', { className: 'experience-card', key: job.company },
+        h('p', { className: 'dates' }, job.dates),
+        h('div', { className: 'experience-body' },
         h('div', { className: 'experience-heading' },
-          h('div', null, h('h3', null, job.company), h('p', { className: 'role' }, job.role)),
-          h('p', { className: 'dates' }, job.dates)),
-        h('ul', null, job.bullets.map(text => h('li', { key: text }, text))))))));
+          h('div', null, h('h3', null, job.company), h('p', { className: 'role' }, job.role))),
+        h('ul', null, job.bullets.map(text => h('li', { key: text }, text)))))))));
 }
 
 function Project(props) {
   const project = props.project;
   return h('article', { className: 'project' },
-    h('div', { className: 'project-visual', 'aria-hidden': true },
-      h('i', { className: project.icon }), h('span', null, project.label)),
+    h('div', { className: 'project-visual' },
+      h('span', null, project.label), h('i', { className: project.icon, 'aria-hidden': true })),
     h('div', { className: 'project-details' },
       h('h3', { className: 'project-tile' }, project.title),
       h('p', { className: 'project-role' }, project.role),
-      h('ul', { className: 'project-outcomes' }, project.bullets.map(text => h('li', { key: text }, text))),
+      h('ul', { className: 'project-outcomes' }, project.bullets.map(text => {
+        const metric = 'approximately 79% smaller';
+        const parts = text.split(metric);
+        return h('li', { key: text }, parts.length === 2
+          ? [parts[0], h('strong', { key: 'metric' }, metric), parts[1]] : text);
+      })),
       h('ul', { className: 'tech-tags', 'aria-label': 'Project technologies' }, project.tech.map(text => h('li', { key: text }, text)))));
 }
 
 function Projects() {
   return h('section', { id: 'projects', 'aria-labelledby': 'projects-title' }, h('div', { className: 'projects-container' },
-    h(Heading, { id: 'projects-title', title: 'My Works', subtitle: 'Selected projects in sensing, Edge-Cloud AI and retrieval-augmented generation.' }),
+    h(Heading, { id: 'projects-title', eyebrow: '03 / Selected work', title: 'From ideas to systems.', subtitle: 'Four projects in sensing, Edge-Cloud AI and retrieval-augmented generation.' }),
     h('div', { className: 'projects-wrapper' }, projects.map(project => h(Project, { key: project.title, project })))));
 }
 
@@ -166,14 +194,14 @@ function Skills() {
     ['Tools', ['LangChain', 'LangGraph', 'RAGAS', 'Langfuse', 'Qdrant', 'Neo4j', 'n8n', 'Dify']]
   ];
   return h('section', { id: 'skills', className: 'resume-section', 'aria-labelledby': 'skills-title' },
-    h('div', { className: 'section-container' }, h(Heading, { id: 'skills-title', title: 'Skills & Tools' }),
+    h('div', { className: 'section-container' }, h(Heading, { id: 'skills-title', eyebrow: '04 / Toolkit', title: 'The tools behind the work.' }),
       h('div', { className: 'skills-grid' }, groups.map(([name, items]) => h('article', { className: 'skill-card', key: name },
         h('h3', null, name), h('ul', { className: 'tech-tags' }, items.map(item => h('li', { key: item }, item))))))));
 }
 
 function Education() {
   return h('section', { id: 'education', className: 'resume-section', 'aria-labelledby': 'education-title' },
-    h('div', { className: 'section-container' }, h(Heading, { id: 'education-title', title: 'Education & Achievements' }),
+    h('div', { className: 'section-container' }, h(Heading, { id: 'education-title', eyebrow: '05 / Learning', title: 'Education & achievements.' }),
       h('div', { className: 'education-grid' },
         h('article', { className: 'education-card' }, h('h3', null, 'FPT University'),
           h('p', { className: 'role' }, 'Bachelor of Science in Artificial Intelligence'),
@@ -189,7 +217,8 @@ function Education() {
 function Contact() {
   return h('section', { id: 'contact', 'aria-labelledby': 'contact-title' }, h('div', { className: 'container' },
     h('div', { className: 'heading-wrapper' }, h('div', { className: 'heading' },
-      h('h2', { className: 'title', id: 'contact-title' }, 'Want to ', h('br'), 'contact me?'),
+      h('p', { className: 'section-eyebrow' }, '06 / Get in touch'),
+      h('h2', { className: 'title', id: 'contact-title' }, 'Let’s build', h('br'), 'something useful.'),
       h('p', { className: 'separator', 'aria-hidden': true }),
       h('p', { className: 'subtitle' }, 'Let’s talk about AI engineering, research or a project you have in mind.')),
       h(SocialLinks)),
@@ -201,8 +230,9 @@ function Contact() {
 }
 
 function Footer() {
-  return h('footer', null, h('div', { className: 'wrapper' }, h('h3', null, 'THANKS FOR VISITING'),
-    h('p', null, '© ', new Date().getFullYear(), ' Bùi Gia Huy.'), h(SocialLinks)));
+  return h('footer', null, h('div', { className: 'wrapper' },
+    h('p', null, '© ', new Date().getFullYear(), ' Bùi Gia Huy.'),
+    h('a', { href: '#welcome-section' }, 'Back to top ', h('span', { 'aria-hidden': true }, '↑'))));
 }
 
 class App extends React.Component {
@@ -233,10 +263,6 @@ class App extends React.Component {
   handleScroll() {
     const scroll = window.scrollY;
     document.getElementById('navbar').classList.toggle('bg-active', scroll > 80);
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && scroll <= window.innerHeight) {
-      document.querySelector('.silhouette').style.bottom = `${Math.round(scroll / 6)}px`;
-      document.querySelector('.forest').style.bottom = `${-300 + Math.round(scroll / 6)}px`;
-    }
   }
 
   componentDidMount() {
